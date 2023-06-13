@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon js,css ./bin/www",
     "dev": "nodemon ./bin/www"
   },
   "repository": {
@@ -20,6 +20,9 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "pg": "^8.11.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.32.0"
   }
 }
