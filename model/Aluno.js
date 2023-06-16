@@ -1,9 +1,11 @@
 const {DataTypes} = require("sequelize")
+const sequelize = require("../helpers/PostgreSQL")
 
 const AlunoModel = sequelize.define('Aluno', 
     {
-        RA: DataTypes.STRING(7),
+        RA: { type: DataTypes.STRING(7), primaryKey: true, allowNull: false },
         nome: DataTypes.STRING,
-        saldo: DataTypes.FLOAT
+        saldo: { type: DataTypes.FLOAT, allowNull: false, defaultValue: 0 }
     }
 )
+module.exports = { Model: AlunoModel };
