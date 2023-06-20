@@ -27,10 +27,21 @@ module.exports = {
         }
     },
 
-    findByPk: async function (ID_func) {
+    findByID: async function (ID_func) {
         try {
             const func = await FuncModel.findByPk(ID_func);
             return func;
+        } catch (error) {
+            console.error('Error finding functionary by PK:', error);
+            throw error;
+        }
+    },
+
+    getSenhaCargoByID: async function (ID_func) {
+        try {
+            const funcionario = await FuncModel.findByPk(ID_func, { attributes: ['senha', 'cargo'] });
+            if (funcionario) return {senha: funcionario.senha, cargo: funcionario.cargo}
+            else return null;
         } catch (error) {
             console.error('Error finding functionary by PK:', error);
             throw error;

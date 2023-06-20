@@ -5,6 +5,7 @@ const FuncModel = require("../model/Func")
 const ProdutoModel = require("../model/Produto")
 const TransacaoModel = require("../model/Transacao")
 const sequelize_admin = require('../helpers/PostgreSQL');
+const { validarFunc, validarGerente } = require('../helpers/validadeLogin')
 
 async function insertAlunos() {
   try {
@@ -111,13 +112,15 @@ async function insertTransacoes() {
 }
 
 /* GET home page. */
-router.get('/', async function (req, res, next) {
+router.get('/', validarGerente , async function (req, res, next) {
   await sequelize_admin.sync({ force: true });
 
   await insertAlunos();
   await insertFuncionarios();
   await insertProdutos();
   await insertTransacoes();
+
+  //console.log(req.id, req.cargo)
 
   res.send("Instalação feita")
 });
