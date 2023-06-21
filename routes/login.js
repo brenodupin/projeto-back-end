@@ -17,6 +17,6 @@ router.post("/", async (req, res) => {
     } else {
         res.status(403).json({status:false, mensagem:'Senha incorreta'})
     }
-})
+}) 
 
 module.exports = router;

@@ -6,6 +6,8 @@ const ProdutoModel = require("../model/Produto")
 const TransacaoModel = require("../model/Transacao")
 const sequelize_admin = require('../helpers/PostgreSQL');
 const { validarFunc, validarGerente } = require('../helpers/validadeLogin')
+const fs = require("fs");
+const path = require("path")
 
 async function insertAlunos() {
   try {
@@ -112,8 +114,19 @@ async function insertTransacoes() {
 }
 
 /* GET home page. */
-router.get('/', validarGerente , async function (req, res, next) {
-  await sequelize_admin.sync({ force: true });
+router.get('/', async function (req, res, next) {
+  //await sequelize_admin.sync({ force: true });
+  try {
+    const sqlFilePath = "./teste.sql";
+    const filePath = path.join(__dirname, '../CREATES_DB.sql');
+    console.log(fs.existsSync(filePath))
+    console.log(filePath)
+    const sqlContent = fs.readFileSync(filePath, "utf8");
+    await sequelize_admin.query(sqlContent);
+  } catch (error) {
+    console.error('Error executing SQL file:', error);
+    throw error;
+  }
 
   await insertAlunos();
   await insertFuncionarios();
@@ -122,7 +135,7 @@ router.get('/', validarGerente , async function (req, res, next) {
 
   //console.log(req.id, req.cargo)
 
-  res.send("Instalação feita")
+  res.status(200).json({status:true})
 });
 
 module.exports = router;

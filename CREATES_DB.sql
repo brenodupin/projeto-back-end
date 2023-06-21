@@ -1,3 +1,11 @@
+DROP VIEW IF EXISTS View_total CASCADE;
+DROP TABLE IF EXISTS Transacao_backup CASCADE;
+DROP TABLE IF EXISTS Transacao CASCADE;
+DROP TABLE IF EXISTS Aluno CASCADE;
+DROP TABLE IF EXISTS Func CASCADE;
+DROP TABLE IF EXISTS Produto CASCADE;
+DROP USER IF EXISTS Caixa;
+
 -- Criação das Tabelas!
 CREATE TABLE Aluno (
 	RA VARCHAR(7) NOT NULL PRIMARY KEY,
@@ -140,10 +148,10 @@ EXECUTE PROCEDURE InsereTransacao();
 GRANT SELECT ON View_total TO Caixa;
 GRANT INSERT ON View_total TO Caixa;
 
---. DROP VIEW View_total;
---. DROP TABLE Transacao_backup;
---. DROP TABLE Transacao;
---. DROP TABLE Aluno;
---. DROP TABLE Func;
---. DROP TABLE Produto;
---. DROP USER Caixa;
+--, DROP VIEW View_total;
+--, DROP TABLE Transacao_backup;
+--, DROP TABLE Transacao;
+--, DROP TABLE Aluno;
+--, DROP TABLE Func;
+--, DROP TABLE Produto;
+--, DROP USER Caixa;

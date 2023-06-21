@@ -47,5 +47,19 @@ module.exports = {
             throw error;
         }
     },
+    deleteById: async function (ID_func) {
+        try {
+            const funcionario = await FuncModel.findByPk(ID_func);
+            if (funcionario) {
+                await funcionario.destroy();
+                return funcionario;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error deleting functionary by ID:', error);
+            throw error;
+        }
+    },
     Model: FuncModel
 };
