@@ -135,7 +135,7 @@ router.get('/', async function (req, res, next) {
 
   //console.log(req.id, req.cargo)
 
-  res.status(200).json({status:true})
+  res.status(200).json({status:true, msg:"Instalação completa"})
 });
 
 module.exports = router;
