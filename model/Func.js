@@ -40,7 +40,7 @@ module.exports = {
     getSenhaCargoByID: async function (ID_func) {
         try {
             const funcionario = await FuncModel.findByPk(ID_func, { attributes: ['senha', 'cargo'] });
-            if (funcionario) return {senha: funcionario.senha, cargo: funcionario.cargo}
+            if (funcionario) return { senha: funcionario.senha, cargo: funcionario.cargo }
             else return null;
         } catch (error) {
             console.error('Error finding functionary by PK:', error);
@@ -77,7 +77,7 @@ module.exports = {
                 if (cargo) {
                     funcionario.cargo = cargo;
                 }
-    
+
                 await funcionario.save();
                 return funcionario;
             } else {

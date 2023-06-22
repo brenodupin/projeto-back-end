@@ -5,61 +5,59 @@ const FuncModel = require("../model/Func");
 const { validarFunc, validarGerente } = require('../helpers/validadeLogin');
 
 // Cadastro apenas de funcionário com cargo Caixa
-router.post('/cadastro', async function(req, res) {
-  const {senha, nome, email} = req.body;
+router.post('/cadastro', async function (req, res) {
+	const { senha, nome, email } = req.body;
 
-  if (!senha) {
-    return res.status(403).send({status: false, msg: "senha não enviada"})
-  }
+	if (!senha) {
+		return res.status(403).send({ status: false, msg: "senha não enviada" })
+	}
 
-  const a = await FuncModel.save(senha, nome, email, 'Caixa');
-  return res.send({status: true, msg: "Usuário criado, use o ID abaixo para o login", id: a.id_func});
+	const a = await FuncModel.save(senha, nome, email, 'Caixa');
+	return res.send({ status: true, msg: "Usuário criado, use o ID abaixo para o login", id: a.id_func });
 });
 
 // Alteração de Funcionário
-router.post('/altera', validarFunc, async function(req, res) {
-  const {id, senha, nome, email} = req.body;
+router.post('/altera', validarFunc, async function (req, res) {
+	const { id, senha, nome, email } = req.body;
 
-  if (!senha || !id) {
-    return res.status(403).send({status: false, msg: "senha ou id não enviada"})
-  }
+	if (!senha || !id) {
+		return res.status(403).send({ status: false, msg: "senha ou id não enviada" })
+	}
 
-  if (req.id != id) {
-    return res.status(403).send({status: false, msg: "não pode alterar os dados de outro usuário"})
-  }
-
-  const a = await FuncModel.updateById(id, senha, nome, email)
-  if (!a) {
-    return res.status(404).send({status: false, msg: "Usuário não encontrado"})
-  }
-  return res.status(200).send({status: true, msg: "Usuário alterado", Func: a});
+	if (req.id != id) {
+		return res.status(403).send({ status: false, msg: "não pode alterar os dados de outro usuário" })
+	}
+	const a = await FuncModel.updateById(id, senha, nome, email)
+	if (!a) {
+		return res.status(404).send({ status: false, msg: "Usuário não encontrado" })
+	}
+	return res.status(200).send({ status: true, msg: "Usuário alterado", Func: a });
 });
 
 // roda ADMIN de Cadastro
-router.post('/admin/cadastro', validarGerente, async function(req, res) {
-  const {senha, nome, email} = req.body;
+router.post('/admin/cadastro', validarGerente, async function (req, res) {
+	const { senha, nome, email } = req.body;
 
-  if (!senha || !cargo) {
-    return res.status(403).send({status: false, msg: "senha ou cargo não enviada"})
-  }
+	if (!senha || !cargo) {
+		return res.status(403).send({ status: false, msg: "senha ou cargo não enviada" })
+	}
 
-  const a = await FuncModel.save(senha, nome, email, cargo);
-  return res.send({status: true, msg: "Usuário criado, use o ID abaixo para o login", id: a.id_func});
+	const a = await FuncModel.save(senha, nome, email, cargo);
+	return res.send({ status: true, msg: "Usuário criado, use o ID abaixo para o login", id: a.id_func });
 });
- 
-router.post('/admin/altera', validarGerente, async function(req, res) {
-  const {id, senha, nome, email} = req.body;
 
-  if (!senha || !id) {
-    return res.status(403).send({status: false, msg: "senha ou id não enviada"})
-  }
+router.post('/admin/altera', validarGerente, async function (req, res) {
+	const { id, senha, nome, email } = req.body;
 
-  const a = await FuncModel.updateById(id, senha, nome, email)
-  if (!a) {
-    return res.status(404).send({status: false, msg: "Usuário não encontrado"})
-  }
-  return res.status(200).send({status: true, msg: "Usuário alterado", Func: a});
+	if (!senha || !id) {
+		return res.status(403).send({ status: false, msg: "senha ou id não enviada" })
+	}
+
+	const a = await FuncModel.updateById(id, senha, nome, email)
+	if (!a) {
+		return res.status(404).send({ status: false, msg: "Usuário não encontrado" })
+	}
+	return res.status(200).send({ status: true, msg: "Usuário alterado", Func: a });
 });
 
 module.exports = router;
-  
