@@ -51,5 +51,14 @@ module.exports = {
             throw error;
         }
     },
+    qtd: async function () {
+        try {
+            const quantidade = await TransacaoModel.count();
+            return quantidade;
+        } catch (error) {
+            console.error('Error getting transaction count:', error);
+            throw error;
+        }
+    },
     Model: TransacaoModel
 };
