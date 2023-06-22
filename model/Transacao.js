@@ -7,7 +7,7 @@ const Func = require("./Func")
 
 const TransacaoModel = sequelize.define('Transacao',
     {
-        ID_venda: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
+        id_venda: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
         quantidade: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
         valor_prod: { type: DataTypes.FLOAT, allowNull: false },
         valor_total: { type: DataTypes.FLOAT, allowNull: false },

@@ -115,7 +115,7 @@ async function insertTransacoes() {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  //await sequelize_admin.sync({ force: true });
+  // instala as tabelas, views e roles do banco conforme oque está em CREATES_DB.sql
   try {
     const sqlFilePath = "./teste.sql";
     const filePath = path.join(__dirname, '../CREATES_DB.sql');
@@ -128,14 +128,15 @@ router.get('/', async function (req, res, next) {
     throw error;
   }
 
+  // insere os dados no banco usando o modelo e não raw sql
   await insertAlunos();
   await insertFuncionarios();
   await insertProdutos();
   await insertTransacoes();
 
-  //console.log(req.id, req.cargo)
+  //sequelize_admin.sync();
 
-  res.status(200).json({status:true, msg:"Instalação completa"})
+  return res.status(200).json({status:true, msg:"Instalação completa"})
 });
 
 module.exports = router;

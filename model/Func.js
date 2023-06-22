@@ -3,7 +3,7 @@ const sequelize = require("../helpers/PostgreSQL")
 
 const FuncModel = sequelize.define('Func',
     {
-        ID_func: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
+        id_func: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
         senha: DataTypes.STRING,
         nome: DataTypes.STRING,
         email: { type: DataTypes.STRING, allowNull: false },
@@ -58,6 +58,33 @@ module.exports = {
             }
         } catch (error) {
             console.error('Error deleting functionary by ID:', error);
+            throw error;
+        }
+    },
+    updateById: async function (ID_func, senha, nome, email, cargo) {
+        try {
+            const funcionario = await FuncModel.findByPk(ID_func);
+            if (funcionario) {
+                if (senha) {
+                    funcionario.senha = senha;
+                }
+                if (nome) {
+                    funcionario.nome = nome;
+                }
+                if (email) {
+                    funcionario.email = email;
+                }
+                if (cargo) {
+                    funcionario.cargo = cargo;
+                }
+    
+                await funcionario.save();
+                return funcionario;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error updating functionary by ID:', error);
             throw error;
         }
     },

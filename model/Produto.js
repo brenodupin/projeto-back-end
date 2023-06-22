@@ -3,7 +3,7 @@ const sequelize = require("../helpers/PostgreSQL")
 
 const ProdutoModel = sequelize.define('Produto',
     {
-        ID_produto: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
+        id_produto: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
         nome: DataTypes.STRING,
         tipo: DataTypes.STRING,
         quantidade: { type: DataTypes.FLOAT, allowNull: false, defaultValue: 0 },
