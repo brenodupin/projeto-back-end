@@ -8,45 +8,13 @@ const Func = require('../model/Func');
 
 const sequelize_admin = require("../helpers/PostgreSQL");
 const { validarFunc, validarGerente } = require('../helpers/validadeLogin');
+const validaParams = require("../helpers/validaParams");
 
 // listas a VIEW, SEM PAGINAÇÃO
 router.get('/view', validarFunc, async function (req, res) {
     const [results, metadata] = await sequelize_admin.query("SELECT * FROM view_total;");
     return res.status(200).json({ status: true, msg: "Query feita: SELECT * FROM view_total", results })
 });
-
-function validaParams(limite, pagina) {
-    var result = { limite: 10, inicio: 1 };
-
-    if (limite) {
-        limite = parseInt(limite);
-        if (!Number.isInteger(limite))
-            result.error = "Limite não é um numero";
-
-        if (![5, 10, 30].includes(limite) && !result.error)
-            result.error = "Limite incluido não é 5, 10 ou 30";
-
-        if (result.error)
-            return result;
-
-        result.limite = limite;
-    }
-
-    if (pagina) {
-        pagina = parseInt(pagina);
-        if (!Number.isInteger(pagina))
-            result.error = "Pagina não é um numero";
-
-        if (pagina <= 0 && !result.error)
-            result.error = "Pagina é menor ou igual a 0";
-
-        if (result.error)
-            return result;
-
-        result.inicio = (pagina - 1) * limite; // calcula por onde deve começar
-    }
-    return result;
-}
 
 // GET do aluno por RA
 router.get('/aluno/:RA', validarGerente, async function (req, res) {
@@ -78,6 +46,7 @@ router.get('/:type/:id', validarFunc, async function (req, res) {
             case 'func':
                 if (req.cargo == 'Gerente') registros = await Func.findByID(id);
                 else return res.status(403).json({ status: false, error: 'Permissão Inválida' });
+                break;
             case 'produto':
                 registros = await Produto.findByID(id);
                 break;
@@ -91,9 +60,7 @@ router.get('/:type/:id', validarFunc, async function (req, res) {
 });
 
 // Listar Transações
-router.get('/:type', validarFunc, async function (req, res, next) {
-    var { limite, inicio, error } = validaParams(req.query.limite, req.query.pagina);
-    if (error) return res.status(400).json({ status: false, error: error });
+router.get('/:type', validarFunc, validaParams, async function (req, res, next) {
     const type = req.params.type;
 
     if (!['aluno', 'tr', 'func', 'produto'].includes(type))
@@ -103,16 +70,19 @@ router.get('/:type', validarFunc, async function (req, res, next) {
     try {
         switch (type) {
             case 'aluno':
-                if (req.cargo == 'Gerente') registros = await Produto.Model.findAll({ limit: limite, offset: inicio });
+                console.log("alunos here")
+                if (req.cargo == 'Gerente') registros = await Aluno.Model.findAll({ limit: req.limite, offset: req.inicio });
                 else return res.status(403).json({ status: false, error: 'Permissão Inválida' });
+                break;
             case 'tr':
-                registros = await Transacao.Model.findAll({ limit: limite, offset: inicio });
+                registros = await Transacao.Model.findAll({ limit: req.limite, offset: req.inicio });
                 break;
             case 'func':
-                if (req.cargo == 'Gerente') registros = await Func.Model.findAll({ limit: limite, offset: inicio });
+                if (req.cargo == 'Gerente') registros = await Func.Model.findAll({ limit: req.limite, offset: req.inicio });
                 else return res.status(403).json({ status: false, error: 'Permissão Inválida' });
+                break;
             case 'produto':
-                registros = await Produto.Model.findAll({ limit: limite, offset: inicio });
+                registros = await Produto.Model.findAll({ limit: req.limite, offset: req.inicio });
                 break;
         }
 
@@ -164,7 +134,10 @@ router.post('/criatr', validarFunc, async function (req, res) {
 });
 router.delete('/deletetr/:idtr', validarGerente, async function (req, res) {
     const idtr = parseInt(req.params.idtr)
-    if (!idtr || !Number.isNaN(idtr) || idtr <= 0) return res.status(400).json({ status: false, error: 'ID_Transacao inválido' });
+    console.log(!idtr)
+    console.log(Number.isNaN(idtr))
+    console.log(idtr <= 0)
+    if (!idtr || Number.isNaN(idtr) || idtr <= 0) return res.status(400).json({ status: false, error: 'ID_Transacao inválido' });
     try {
         const tr = await Transacao.deleteById(idtr);
         return res.status(200).json({ status: true, TransacaoDeletada: tr });
