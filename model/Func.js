@@ -22,7 +22,7 @@ module.exports = {
             });
             return func;
         } catch (error) {
-            console.error('Error saving functionary:', error);
+            console.error('Error saving func:', error);
             throw error;
         }
     },
@@ -32,7 +32,7 @@ module.exports = {
             const func = await FuncModel.findByPk(ID_func);
             return func;
         } catch (error) {
-            console.error('Error finding functionary by PK:', error);
+            console.error('Error finding func by PK:', error);
             throw error;
         }
     },
@@ -43,7 +43,7 @@ module.exports = {
             if (funcionario) return { senha: funcionario.senha, cargo: funcionario.cargo }
             else return null;
         } catch (error) {
-            console.error('Error finding functionary by PK:', error);
+            console.error('Error finding func by PK:', error);
             throw error;
         }
     },
@@ -57,7 +57,7 @@ module.exports = {
                 return null;
             }
         } catch (error) {
-            console.error('Error deleting functionary by ID:', error);
+            console.error('Error deleting func by ID:', error);
             throw error;
         }
     },
@@ -84,7 +84,7 @@ module.exports = {
                 return null;
             }
         } catch (error) {
-            console.error('Error updating functionary by ID:', error);
+            console.error('Error updating func by ID:', error);
             throw error;
         }
     },

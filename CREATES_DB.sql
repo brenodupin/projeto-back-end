@@ -11,8 +11,8 @@ CREATE TABLE Aluno (
 	RA VARCHAR(7) NOT NULL PRIMARY KEY,
 	nome VARCHAR(255),
 	saldo FLOAT NOT NULL DEFAULT 0,
-	createdat TIMESTAMP WITH TIME ZONE NOT NULL,
-	updatedat TIMESTAMP WITH TIME ZONE NOT NULL
+	createdAt TIMESTAMP WITH TIME ZONE NOT NULL,
+	updatedAt TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 CREATE TABLE Func(
@@ -21,8 +21,8 @@ CREATE TABLE Func(
 	nome VARCHAR(255),
 	email VARCHAR(255),
 	cargo VARCHAR(7),
-	createdat TIMESTAMP WITH TIME ZONE NOT NULL,
-	updatedat TIMESTAMP WITH TIME ZONE NOT NULL
+	createdAt TIMESTAMP WITH TIME ZONE NOT NULL,
+	updatedAt TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 CREATE TABLE Produto(
@@ -31,8 +31,8 @@ CREATE TABLE Produto(
 	tipo VARCHAR(255),
 	quantidade FLOAT NOT NULL DEFAULT 0,
 	preco FLOAT,
-	createdat TIMESTAMP WITH TIME ZONE NOT NULL,
-	updatedat TIMESTAMP WITH TIME ZONE NOT NULL
+	createdAt TIMESTAMP WITH TIME ZONE NOT NULL,
+	updatedAt TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 CREATE TABLE Transacao(
@@ -44,8 +44,8 @@ CREATE TABLE Transacao(
 	valor_prod FLOAT,
 	valor_total FLOAT,
 	forma_pgto VARCHAR(8),
-	createdat TIMESTAMP WITH TIME ZONE NOT NULL,
-	updatedat TIMESTAMP WITH TIME ZONE NOT NULL
+	createdAt TIMESTAMP WITH TIME ZONE NOT NULL,
+	updatedAt TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 -- Colocando as FK na tabela Tranacao
@@ -80,8 +80,8 @@ SELECT
 	t.valor_prod as Valor_unitario,
 	t.valor_total AS Valor_total,
 	t.forma_pgto as Forma_Pagamento,
-	t.createdat as Criado_em,
-	t.updatedat as atualizado_em
+	t.createdAt as Criado_em,
+	t.updatedAt as atualizado_em
 FROM
 	Transacao t
 	INNER JOIN Aluno a ON t.id_aluno = a.RA
@@ -99,8 +99,8 @@ CREATE TABLE Transacao_backup(
 	valor_prod FLOAT,
 	valor_total FLOAT,
 	forma_pgto VARCHAR(8),
-	createdat TIMESTAMP WITH TIME ZONE NOT NULL,
-	updatedat TIMESTAMP WITH TIME ZONE NOT NULL,
+	createdAt TIMESTAMP WITH TIME ZONE NOT NULL,
+	updatedAt TIMESTAMP WITH TIME ZONE NOT NULL,
 	deletedBy VARCHAR(255),
 	deletedat TIMESTAMP WITH TIME ZONE NOT NULL
 );
@@ -108,8 +108,8 @@ CREATE TABLE Transacao_backup(
 -- Criando funcão que insere em backup
 CREATE OR REPLACE FUNCTION backup_transacao() RETURNS TRIGGER SECURITY DEFINER AS $$
 BEGIN
-    INSERT INTO Transacao_backup (id_venda, id_aluno, id_func, id_produto, quantidade, valor_prod, valor_total, forma_pgto, createdat, updatedat, deletedBy, deletedat)
-    VALUES (OLD.id_venda, OLD.id_aluno, OLD.id_func, OLD.id_produto, OLD.quantidade, OLD.valor_prod, OLD.valor_total, OLD.forma_pgto, OLD.createdat, OLD.updatedat, current_user, CURRENT_TIMESTAMP);
+    INSERT INTO Transacao_backup (id_venda, id_aluno, id_func, id_produto, quantidade, valor_prod, valor_total, forma_pgto, createdAt, updatedAt, deletedBy, deletedat)
+    VALUES (OLD.id_venda, OLD.id_aluno, OLD.id_func, OLD.id_produto, OLD.quantidade, OLD.valor_prod, OLD.valor_total, OLD.forma_pgto, OLD.createdAt, OLD.updatedAt, current_user, CURRENT_TIMESTAMP);
     
     RETURN OLD;
 END;
@@ -132,7 +132,7 @@ REVOKE SELECT (senha) ON Func FROM Caixa;
 -- Criando funcão para inserção na view
 CREATE OR REPLACE FUNCTION InsereTransacao() RETURNS TRIGGER SECURITY DEFINER AS $$
 BEGIN
-	INSERT INTO Transacao (id_aluno, id_func, id_produto, quantidade, valor_prod, valor_total, forma_pgto, createdat, updatedat) VALUES
+	INSERT INTO Transacao (id_aluno, id_func, id_produto, quantidade, valor_prod, valor_total, forma_pgto, createdAt, updatedAt) VALUES
 		(NEW.RA, NEW.id_funcionario, NEW.id_produto, NEW.quantidade, NEW.valor_unitario, NEW.Valor_total, NEW.Forma_Pagamento, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 	
 	RETURN NEW;

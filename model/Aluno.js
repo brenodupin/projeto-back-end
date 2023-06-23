@@ -16,8 +16,29 @@ module.exports = {
         })
         return aluno
     },
-    getByRa: async function (RA) {
-        return await AlunoModel.findByPk(RA)
+    findByRA: async function (RA) {
+        try {
+            const func = await AlunoModel.findByPk(RA);
+            return func;
+        } catch (error) {
+            console.error('Error finding aluno by PK:', error);
+            throw error;
+        }
+    },
+    updateSaldobyRA: async function (RA, saldo) {
+        try {
+            const aluno = await AlunoModel.findByPk(RA);
+            if (aluno) {
+                aluno.saldo = saldo;
+                await aluno.save();
+                return aluno;
+            } else {
+                throw new Error('Aluno não encontrado');
+            }
+        } catch (error) {
+            console.error('Error updating aluno saldo:', error);
+            throw error;
+        }
     },
     Model: AlunoModel
 };

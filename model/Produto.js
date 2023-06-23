@@ -26,12 +26,27 @@ module.exports = {
         }
     },
 
-    findByPk: async function (ID_produto) {
+    findByID: async function (ID_produto) {
         try {
             const produto = await ProdutoModel.findByPk(ID_produto);
             return produto;
         } catch (error) {
             console.error('Error finding product by PK:', error);
+            throw error;
+        }
+    },
+    updateQdtById: async function (id_produto, qdt) {
+        try {
+            const produto = await ProdutoModel.findByPk(id_produto);
+            if (produto) {
+                produto.quantidade = qdt;
+                await produto.save();
+                return produto;
+            } else {
+                throw new Error('Produto não encontrado');
+            }
+        } catch (error) {
+            console.error('Error updating product quantity:', error);
             throw error;
         }
     },
