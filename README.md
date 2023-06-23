@@ -7,7 +7,7 @@
 git clone https://github.com/brenodupin/projeto-back-end
 cd projeto-back-end
 ```
-2. Criar e configurar um arquivo .env com so dados do Postgres
+2. Criar e configurar um arquivo .env com os dados do Postgres
 Exemplo:
 ```env
 DB_NAME=<nome do databse>
@@ -25,7 +25,6 @@ npm start
 ```
 
 ### Endpoints:
-
 
 
 GET /install (configura o banco de dados e popular ele, **dever ser a primeira a ser usada**)

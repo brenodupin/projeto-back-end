@@ -171,6 +171,6 @@ router.delete('/deletetr/:idtr', validarGerente, async function (req, res) {
     } catch (error) {
         console.error('Error deleting transactions:', error);
         return res.status(500).json({ status: false, error: 'Internal server error', error: error });
-    } 
+    }
 });
 module.exports = router;

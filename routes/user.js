@@ -62,18 +62,18 @@ router.post('/admin/altera', validarGerente, async function (req, res) {
 
 // rota ADMIN de Alteração de Funcionário
 router.delete('/admin/delete/:fID', async function (req, res, next) {
-    const funcID = req.params.fID;
-    if (!funcID) {
-        return res.status(403).json({ status: false, mensagem: 'ID do funcionário a ser excluido não foi informado' })
-    }
-    const func = FuncModel.deleteById(funcID)
-    console.log(func)
+	const funcID = req.params.fID;
+	if (!funcID) {
+		return res.status(403).json({ status: false, mensagem: 'ID do funcionário a ser excluido não foi informado' })
+	}
+	const func = FuncModel.deleteById(funcID)
+	console.log(func)
 
-    if (!func) {
-        return res.status(403).json({ status: false, mensagem: 'ID do funcionário não existe' })
-    }
+	if (!func) {
+		return res.status(403).json({ status: false, mensagem: 'ID do funcionário não existe' })
+	}
 
-    return res.status(200).json({ status: true, mensagem: 'Funcionário deletado' })
+	return res.status(200).json({ status: true, mensagem: 'Funcionário deletado' })
 });
 
 module.exports = router;
