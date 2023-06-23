@@ -5,7 +5,6 @@ const FuncModel = require("../model/Func")
 const ProdutoModel = require("../model/Produto")
 const TransacaoModel = require("../model/Transacao")
 const sequelize_admin = require('../helpers/PostgreSQL');
-const { validarFunc, validarGerente } = require('../helpers/validadeLogin')
 const fs = require("fs");
 const path = require("path")
 
@@ -147,7 +146,6 @@ async function insertTransacoes() {
 router.get('/', async function (req, res, next) {
 	// instala as tabelas, views e roles do banco conforme oque está em CREATES_DB.sql
 	try {
-		const sqlFilePath = "./teste.sql";
 		const filePath = path.join(__dirname, '../CREATES_DB.sql');
 		console.log(fs.existsSync(filePath))
 		console.log(filePath)

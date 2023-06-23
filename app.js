@@ -3,7 +3,7 @@ var express = require('express');
 var logger = require('morgan');
 require("dotenv").config()
 
-var installRouter = require('./routes/install');
+var installRouter = require('./routes/install').default;
 var userRouter = require('./routes/user');
 var loginRouter = require('./routes/login')
 var dbRouter = require('./routes/db')
