@@ -9,6 +9,12 @@ const Func = require('../model/Func');
 const sequelize_admin = require("../helpers/PostgreSQL");
 const { validarFunc, validarGerente } = require('../helpers/validadeLogin');
 
+// listas a VIEW, SEM PAGINAÇÃO
+router.get('/view', validarFunc, async function (req, res) {
+    const [results, metadata] = await sequelize_admin.query("SELECT * FROM view_total;");
+    return res.status(200).json({ status: true, msg: "Query feita: SELECT * FROM view_total", results })
+});
+
 function validaParams(limite, pagina) {
     var result = { limite: 10, inicio: 1 };
 
@@ -115,12 +121,6 @@ router.get('/:type', validarFunc, async function (req, res, next) {
         console.error('Error fetching transactions:', error);
         return res.status(500).json({ status: false, error: 'Internal server error' });
     }
-});
-
-// listas a VIEW, SEM PAGINAÇÃO
-router.get('/view', async function (req, res) {
-    const [results, metadata] = await sequelize_admin.query("SELECT * FROM view_total;");
-    return res.status(200).json({ status: true, msg: "Query feita: SELECT * FROM view_total", results })
 });
 
 router.post('/criatr', validarFunc, async function (req, res) {

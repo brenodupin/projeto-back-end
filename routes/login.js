@@ -9,6 +9,9 @@ router.post("/", async (req, res) => {
     if (!id || !senha) {
         return res.status(400).json({ status: false, mensagem: 'ID ou senha não informados' })
     }
+    id = parseInt(id);
+    if (!Number.isInteger(id) || id <= 0) return res.status(400).json({ status: false, mensagem: 'ID Inválido' });
+
     let expected = await FuncModel.getSenhaCargoByID(id)
     if (!expected) return res.status(400).json({ status: false, mensagem: 'Funcionário não encontrado' })
     //console.log(expected)
