@@ -23,16 +23,3 @@ SECRET=<qualquer string (usada na criação do jjwt)>
 npm install
 npm start
 ```
-
-### Endpoints:
-
-
-GET /install (configura o banco de dados e popular ele, **dever ser a primeira a ser usada**)
-
-GET /db/transacao/:name (Retorna todas as Transações onde o aluno do aluno com o nome 'name')
-
-DELETE /db/delete/:funcID (Delete o Funcionário com o ID 'funcID')
-
-GET /db/view (Retorna os valores da View criada no Banco)
-
-TODO login e rodas de usuários
