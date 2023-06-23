@@ -12,11 +12,11 @@ router.post("/", async (req, res) => {
     let expected = await FuncModel.getSenhaCargoByID(id)
     console.log(expected)
     if (expected.senha == senha) {
-        let token = jwt.sign({ id: id, cargo: expected.cargo }, process.env.SECRET, { expiresIn: "5 hr" })
+        let token = jwt.sign({ id: id, cargo: expected.cargo }, process.env.SECRET, { expiresIn: "20 min" })
         return res.status(200).json({ status: true, token: token })
     } else {
         return res.status(403).json({ status: false, mensagem: 'Senha incorreta' })
     }
 })
 
-module.exports = router;
+module.exports = router;3
